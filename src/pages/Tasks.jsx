@@ -10,12 +10,14 @@ export default function Tasks() {
   const [tasks, setTasks] = useState([]);
   const { token } = useContext(ContextEbytr);
 
-  useEffect(() => {
-    const allTasks = async () => getAllTasks(token);
-    console.log(allTasks);
+  const getTasks = async () => {
+    const allTasks = await getAllTasks(token);
     setTasks(allTasks);
+  };
+
+  useEffect(() => {
+    getTasks();
   }, []);
-  console.log(tasks);
   return (
     <ListGroup>
       { tasks.map((task) => <Task task={task} />)}

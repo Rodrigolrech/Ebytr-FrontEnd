@@ -16,9 +16,9 @@ export default function NewTask({ history }) {
   const handleClickCreateTask = async (e) => {
     e.preventDefault();
     const response = await newTask(taskDescription, status, token);
-    if (response.username !== undefined) {
+    if (response.taskDescription !== undefined) {
       setNewTaskError('');
-      history.push('/');
+      history.push('/tasks');
     } else {
       setNewTaskError(response.message);
     }

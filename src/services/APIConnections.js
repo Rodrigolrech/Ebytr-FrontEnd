@@ -46,8 +46,27 @@ const getAllTasks = async (token) => {
   return response;
 };
 
+const newTask = async (taskDescription, status, token) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      authorization: token,
+    },
+    mode: 'cors',
+    body: JSON.stringify({
+      taskDescription, status,
+    }),
+  };
+  const response = fetch('https://ebytr-backend.herokuapp.com/newTask', requestOptions)
+    .then((res) => res.json())
+    .then((data) => data);
+  return response;
+};
+
 module.exports = {
   login,
   newUser,
   getAllTasks,
+  newTask,
 };

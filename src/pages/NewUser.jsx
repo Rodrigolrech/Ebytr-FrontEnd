@@ -70,7 +70,7 @@ export default function NewUser({ history }) {
           <option>Select your role</option>
           <option value="Developer">Developer</option>
           <option value="Scrum Master">Scrum Master</option>
-          <option value="Project Owner">Project Owner</option>
+          <option value="Project owner">Project Owner</option>
         </Form.Select>
       </Form.Group>
       { newUserError }

@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import NewUser from './pages/NewUser';
 import Provider from './store/Provider';
 import Tasks from './pages/Tasks';
+import NewTask from './pages/NewTask';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route exact path="/tasks" />
             <Route exact path="/newUser" component={NewUser} />
             <Route exact path="/tasks" component={Tasks} />
+            <Route exact path="/newTask" component={NewTask} />
           </Provider>
         </Switch>
       </BrowserRouter>

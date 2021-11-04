@@ -13,6 +13,7 @@ function App() {
             <Route exact path="/" component={Login} />
             <Route exact path="/tasks" />
             <Route exact path="/newUser" component={NewUser} />
+            <Route exact path="/tasks" component={tasks} />
           </Provider>
         </Switch>
       </BrowserRouter>

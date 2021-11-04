@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import NewUser from './pages/NewUser';
 import Provider from './store/Provider';
+import Tasks from './pages/Tasks';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
             <Route exact path="/" component={Login} />
             <Route exact path="/tasks" />
             <Route exact path="/newUser" component={NewUser} />
+            <Route exact path="/tasks" component={Tasks} />
           </Provider>
         </Switch>
       </BrowserRouter>

@@ -12,7 +12,6 @@ import Task from './components/Task';
 export default function Tasks({ history }) {
   const [tasks, setTasks] = useState([]);
   const { token } = useContext(ContextEbytr);
-  console.log(tasks);
   const getTasks = async () => {
     const allTasks = await getAllTasks(token);
     setTasks(allTasks);

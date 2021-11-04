@@ -26,7 +26,6 @@ export default function NewUser({ history }) {
 
   const handleChange = (e) => {
     setRole(e.target.value);
-    console.log(role);
   };
 
   return (

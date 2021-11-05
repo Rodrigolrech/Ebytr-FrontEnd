@@ -13,15 +13,15 @@ export default function Tasks({ history, match }) {
   const [taskDescription, setTaskDescription] = useState('');
   const [status, setStatus] = useState('Pendente');
   const [updateTaskError, setUpdateTaskError] = useState('');
-  const [deleteTaskError, setDeleteTaskError] = useState('');
-  const [task, setTask] = useState([]);
+  const [task, setTask] = useState('');
   const [taskFoundError, setTaskFoundError] = useState('');
   const { token } = useContext(ContextEbytr);
 
   const getTasks = async () => {
     const { _id } = match.params;
     const allTasks = await getAllTasks(token);
-    if (allTasks) {
+    if (allTasks[0]) {
+      console.log(allTasks);
       const taskFound = allTasks.find((t) => t._id === _id);
       if (taskFound) {
         setTask(taskFound);
@@ -53,18 +53,14 @@ export default function Tasks({ history, match }) {
   const handleClickDeleteTask = async (e) => {
     e.preventDefault();
     const { _id } = match.params;
-    const deletedTask = await deleteTask(_id, taskDescription, status, token);
+    const deletedTask = await deleteTask(_id, token);
     console.log(deletedTask);
-    if (deletedTask.status) {
-      setDeleteTaskError('');
-      history.push('/tasks');
-    } else {
-      setDeleteTaskError(deletedTask.message);
-    }
+    history.push('/tasks');
   };
 
   useEffect(() => {
     getTasks();
+    console.log(task.creatorUser);
   }, []);
 
   return (
@@ -79,7 +75,7 @@ export default function Tasks({ history, match }) {
         </ListGroup.Item>
         <ListGroup.Item>
           Creator
-          <p>{task.creator}</p>
+          { task.creator ? <p>{task.creatorUser.username}</p> : '' }
         </ListGroup.Item>
         <ListGroup.Item>
           Status
@@ -125,7 +121,6 @@ export default function Tasks({ history, match }) {
         >
           Update Task
         </Button>
-        { deleteTaskError }
         <Button
           className="form-button"
           type="submit"

@@ -82,10 +82,26 @@ const updateTask = async (_id, taskDescription, status, token) => {
   return response;
 };
 
+const deleteTask = async (_id, token) => {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    mode: 'cors',
+  };
+  const response = fetch(`https://ebytr-backend.herokuapp.com/task/${_id}`, requestOptions)
+    .then((res) => res.json())
+    .then((data) => data);
+  return response;
+};
+
 module.exports = {
   login,
   newUser,
   getAllTasks,
   newTask,
   updateTask,
+  deleteTask,
 };

@@ -26,10 +26,10 @@ export default function Tasks({ history }) {
   }, []);
   return (
     <div>
-      <ListGroup>
+      <ListGroup.Item>
         {tasks.message ? tasks.message : tasks.map((task) => <Task task={task} key={task._id} />) }
-      </ListGroup>
-      <Button onClick={handleClick}>Create new task</Button>
+        <Button onClick={handleClick}>Create new task</Button>
+      </ListGroup.Item>
     </div>
   );
 }

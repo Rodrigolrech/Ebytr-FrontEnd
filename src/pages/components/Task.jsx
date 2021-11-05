@@ -22,7 +22,10 @@ export default function Task({ task }) {
 
   return (
     <ListGroup.Item>
-      {taskSetted.taskDescription}
+      {taskSetted.taskDescription }
+      {' '}
+      { taskSetted.status}
+      {' '}
       <Button onClick={handleClick}>Update Task</Button>
     </ListGroup.Item>
   );

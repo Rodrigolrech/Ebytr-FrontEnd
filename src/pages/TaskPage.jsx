@@ -7,12 +7,13 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import ContextEbytr from '../store/ContextEbytr';
-import { getAllTasks, updateTask } from '../services/APIConnections';
+import { getAllTasks, updateTask, deleteTask } from '../services/APIConnections';
 
 export default function Tasks({ history, match }) {
   const [taskDescription, setTaskDescription] = useState('');
   const [status, setStatus] = useState('Pendente');
   const [updateTaskError, setUpdateTaskError] = useState('');
+  const [deleteTaskError, setDeleteTaskError] = useState('');
   const [task, setTask] = useState([]);
   const [taskFoundError, setTaskFoundError] = useState('');
   const { token } = useContext(ContextEbytr);
@@ -20,14 +21,15 @@ export default function Tasks({ history, match }) {
   const getTasks = async () => {
     const { _id } = match.params;
     const allTasks = await getAllTasks(token);
-    console.log(allTasks);
-    const taskFound = allTasks.find((t) => t._id === _id);
-    if (taskFound) {
-      setTask(taskFound);
-      setStatus(taskFound.status);
-      setTaskFoundError('');
-    } else {
-      setTaskFoundError('Task not found');
+    if (allTasks) {
+      const taskFound = allTasks.find((t) => t._id === _id);
+      if (taskFound) {
+        setTask(taskFound);
+        setStatus(taskFound.status);
+        setTaskFoundError('');
+      } else {
+        setTaskFoundError('Task not found');
+      }
     }
   };
 
@@ -48,9 +50,23 @@ export default function Tasks({ history, match }) {
     setStatus(e.target.value);
   };
 
+  const handleClickDeleteTask = async (e) => {
+    e.preventDefault();
+    const { _id } = match.params;
+    const deletedTask = await deleteTask(_id, taskDescription, status, token);
+    console.log(deletedTask);
+    if (deletedTask.status) {
+      setDeleteTaskError('');
+      history.push('/tasks');
+    } else {
+      setDeleteTaskError(deletedTask.message);
+    }
+  };
+
   useEffect(() => {
     getTasks();
   }, []);
+
   return (
     <div>
       <ListGroup>
@@ -108,6 +124,15 @@ export default function Tasks({ history, match }) {
           onClick={handleClickUpdateTask}
         >
           Update Task
+        </Button>
+        { deleteTaskError }
+        <Button
+          className="form-button"
+          type="submit"
+          data-testid="deleteTask-submit-btn"
+          onClick={handleClickDeleteTask}
+        >
+          Delete Task
         </Button>
       </Form>
       { taskFoundError }

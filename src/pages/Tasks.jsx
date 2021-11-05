@@ -12,7 +12,6 @@ import Task from './components/Task';
 export default function Tasks({ history }) {
   const [tasks, setTasks] = useState([]);
   const { token } = useContext(ContextEbytr);
-  console.log(tasks);
   const getTasks = async () => {
     const allTasks = await getAllTasks(token);
     setTasks(allTasks);
@@ -27,10 +26,10 @@ export default function Tasks({ history }) {
   }, []);
   return (
     <div>
-      <ListGroup>
+      <ListGroup.Item>
         {tasks.message ? tasks.message : tasks.map((task) => <Task task={task} key={task._id} />) }
-      </ListGroup>
-      <Button onClick={handleClick}>Create new task</Button>
+        <Button onClick={handleClick}>Create new task</Button>
+      </ListGroup.Item>
     </div>
   );
 }

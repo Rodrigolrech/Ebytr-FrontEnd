@@ -5,6 +5,7 @@ import NewUser from './pages/NewUser';
 import Provider from './store/Provider';
 import Tasks from './pages/Tasks';
 import NewTask from './pages/NewTask';
+import TaskPage from './pages/TaskPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route exact path="/newUser" component={NewUser} />
             <Route exact path="/tasks" component={Tasks} />
             <Route exact path="/newTask" component={NewTask} />
+            <Route exact path="/task/:_id" component={TaskPage} />
           </Provider>
         </Switch>
       </BrowserRouter>

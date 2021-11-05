@@ -7,9 +7,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import ContextEbytr from '../store/ContextEbytr';
-import { getAllTasks } from '../services/APIConnections';
+import { getAllTasks, updateTask } from '../services/APIConnections';
 
-export default function Tasks({ history, params }) {
+export default function Tasks({ history, match }) {
   const [taskDescription, setTaskDescription] = useState('');
   const [status, setStatus] = useState('Pendente');
   const [updateTaskError, setUpdateTaskError] = useState('');
@@ -18,8 +18,9 @@ export default function Tasks({ history, params }) {
   const { token } = useContext(ContextEbytr);
 
   const getTasks = async () => {
-    const { _id } = params;
+    const { _id } = match.params;
     const allTasks = await getAllTasks(token);
+    console.log(allTasks);
     const taskFound = allTasks.find((t) => t._id === _id);
     if (taskFound) {
       setTask(taskFound);
@@ -30,12 +31,14 @@ export default function Tasks({ history, params }) {
     }
   };
 
-  const handleClickUpdateTask = async () => {
-    const { _id } = params;
-    const updatedTask = await updateTaskError(_id, taskDescription, status);
+  const handleClickUpdateTask = async (e) => {
+    e.preventDefault();
+    const { _id } = match.params;
+    const updatedTask = await updateTask(_id, taskDescription, status, token);
+    console.log(updatedTask);
     if (updatedTask.status) {
       setUpdateTaskError('');
-      history.push('/');
+      history.push('/tasks');
     } else {
       setUpdateTaskError(updatedTask.message);
     }
@@ -52,16 +55,27 @@ export default function Tasks({ history, params }) {
     <div>
       <ListGroup>
         <ListGroup.Item>
-          <p>{task.taskDescription}</p>
+          <p>
+            Description
+            {' '}
+            {task.taskDescription}
+          </p>
         </ListGroup.Item>
         <ListGroup.Item>
+          Creator
           <p>{task.creator}</p>
         </ListGroup.Item>
         <ListGroup.Item>
+          Status
           <p>{task.status}</p>
         </ListGroup.Item>
         <ListGroup.Item>
-          { task.taskDescriptionHistory ? <p>{task.taskDescriptionHistory}</p> : ''}
+          { task.taskDescriptionHistory ? task.taskDescriptionHistory.map((d) => (
+            <p>
+              Old Description
+              {` ${d} `}
+            </p>
+          )) : ''}
         </ListGroup.Item>
       </ListGroup>
       <Form className="update-task-form">
@@ -106,7 +120,9 @@ Tasks.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
-  params: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };

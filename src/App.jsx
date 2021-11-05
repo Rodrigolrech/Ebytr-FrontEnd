@@ -5,6 +5,7 @@ import NewUser from './pages/NewUser';
 import Provider from './store/Provider';
 import Tasks from './pages/Tasks';
 import NewTask from './pages/NewTask';
+import TaskPage from './pages/TaskPage';
 
 function App() {
   return (
